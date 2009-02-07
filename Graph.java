@@ -59,6 +59,25 @@ public class Graph {
 	}
 
 	/*
+	 * Deletes an edge from the graph between the vertices specified.
+	 */
+	public void deleteEdge( int v, int w ) {
+		if( v == w ) {
+			throw new IllegalArgumentException( 
+					"Vertex loops are not permitted." );
+		}
+
+		// to keep things simple, we want to be able to assume v < w
+		if( v > w ) {
+			addEdge( w, v );
+			return;
+		}
+
+		// set the appropriate boolean to false, and we're done!
+		edges[ getEdgeIndex( v, w ) ] = false;
+	}
+
+	/*
 	 * The edges are stored in the array in ascending order, with duplicate
 	 * edges and loops omitted. For instance, in a graph of order 3, we have
 	 * 0: 0,1

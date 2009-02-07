@@ -69,7 +69,7 @@ public class Graph {
 
 		// to keep things simple, we want to be able to assume v < w
 		if( v > w ) {
-			addEdge( w, v );
+			deleteEdge( w, v );
 			return;
 		}
 

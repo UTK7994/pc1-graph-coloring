@@ -78,6 +78,25 @@ public class Graph {
 	}
 
 	/*
+	 * Checks whether an edge is contained in this graph.
+	 */
+	public boolean hasEdge( int v, int w ) {
+		if( v == w ) {
+			throw new IllegalArgumentException( 
+					"Vertex loops are not permitted." );
+		}
+		
+		// to keep things simple, we want to be able to assume v < w
+		if( v > w ) {
+			hasEdge( w, v );
+			return;
+		}
+
+		return edges[ getEdgeIndex( v, w ) ];
+	}
+
+
+	/*
 	 * The edges are stored in the array in ascending order, with duplicate
 	 * edges and loops omitted. For instance, in a graph of order 3, we have
 	 * 0: 0,1

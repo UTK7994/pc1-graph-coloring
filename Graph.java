@@ -43,17 +43,6 @@ public class Graph {
 	 * Adds an edge to the graph between the vertices specified.
 	 */
 	public void addEdge( int v, int w ) {
-		if( v == w ) {
-			throw new IllegalArgumentException( 
-					"Vertex loops are not permitted." );
-		}
-
-		// to keep things simple, we want to be able to assume v < w
-		if( v > w ) {
-			addEdge( w, v );
-			return;
-		}
-
 		// set the appropriate boolean to true, and we're done!
 		edges[ getEdgeIndex( v, w ) ] = true;
 	}
@@ -62,17 +51,6 @@ public class Graph {
 	 * Deletes an edge from the graph between the vertices specified.
 	 */
 	public void deleteEdge( int v, int w ) {
-		if( v == w ) {
-			throw new IllegalArgumentException( 
-					"Vertex loops are not permitted." );
-		}
-
-		// to keep things simple, we want to be able to assume v < w
-		if( v > w ) {
-			deleteEdge( w, v );
-			return;
-		}
-
 		// set the appropriate boolean to false, and we're done!
 		edges[ getEdgeIndex( v, w ) ] = false;
 	}
@@ -81,17 +59,6 @@ public class Graph {
 	 * Checks whether an edge is contained in this graph.
 	 */
 	public boolean hasEdge( int v, int w ) {
-		if( v == w ) {
-			throw new IllegalArgumentException( 
-					"Vertex loops are not permitted." );
-		}
-		
-		// to keep things simple, we want to be able to assume v < w
-		if( v > w ) {
-			hasEdge( w, v );
-			return;
-		}
-
 		return edges[ getEdgeIndex( v, w ) ];
 	}
 
@@ -110,6 +77,20 @@ public class Graph {
 		// closed form (vertexCount*v - (v*(v + 1)/2)).
 		// Then we must also add the offset for w, which is given by 
 		// w - v - 1
-		return vertexCount*v - v*(v + 1)/2 + w - v - 1;
+
+		// Note that loops are not allowed. (Trying to find a
+		// coloring for a graph containing loops would be rather silly.)
+		if( v == w ) {
+			throw new IllegalArgumentException( 
+					"Vertex loops are not permitted." );
+		}
+		
+		// Also, we want to be able to assume that v < w, so if it's
+		// not we'll fix that right here:
+		if( v > w ) {
+			return getEdgeIndex( w, v );
+		} else {
+			return vertexCount*v - v*(v + 1)/2 + w - v - 1;
+		}
 	}
 }

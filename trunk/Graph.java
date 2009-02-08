@@ -13,8 +13,6 @@
 public class Graph {
 	// order of the graph
 	private int vertexCount;
-	// size of the graph
-	private int edgeCount;
 
 	// this keeps track of whether two particular vertices
 	// have an edge between them or not
@@ -28,7 +26,6 @@ public class Graph {
 	 */
 	public Graph( int vertexCount ) {
 		this.vertexCount = vertexCount;
-		edgeCount = 0;
 
 		// there are ( vertexCount choose 2 ) possible edges
 		edges = new boolean[ vertexCount*(vertexCount - 1)/2 ];
@@ -141,5 +138,17 @@ public class Graph {
 		} else {
 			return vertexCount*v - v*(v + 1)/2 + w - v - 1;
 		}
+	}
+
+	/*
+	 * Checks whether this graph is empty (has no edges).
+	 */
+	public boolean isEmpty() {
+		for( int i = 0; i < edges.length; i++ ) {
+			if( edges[i] ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -62,6 +62,55 @@ public class Graph {
 		return edges[ getEdgeIndex( v, w ) ];
 	}
 
+	/*
+	 * Performs an edge contraction on this graph, and returns the
+	 * result in the form of a newly created graph.
+	 */
+	public Graph contraction( int v, int w ) {
+		// ensure v < w
+		if( v > w ) {
+			return contraction( w, v );
+		}
+
+		// first create a new graph with one less vertex than this one
+		Graph result = new Graph( vertexCount - 1 );
+		
+		// this will keep track of where we are in the result graph
+		int resIndex = 0;
+
+		// now iterate through each edge in the existing graph
+		for( int i = 0; i < vertexCount; i++ ) {
+			for( int j = i + 1; j < vertexCount; j++ ) {
+				// we'll merge the vertices in the new graph by
+				// deleting v and redirecting all the edges 
+				// that were incident on v over to w
+
+				// To understand the ensuing if/else block, it helps
+				// to note that all the vertices above v in the
+				// array will be shifted down to position v - 1
+				// in the result array. i.e., if j > i, then vertex 
+				// j in this graph will become vertex j - 1 in the next.
+
+				if( i != v && j != v ) {
+					result.edges[ resIndex++ ] |= hasEdge( i, j );
+				} else if( i == v && j != w ) {
+					if( j < v ) {
+						result.addEdge( w - 1, j );
+					} else {
+						result.addEdge( w - 1, j - 1 );
+					}
+				} else if( j == v && i != w ) {
+					if( i < v ) {
+						result.addEdge( w - 1, i );
+					} else {
+						result.addEdge( w - 1, i - 1 );
+					}
+				}
+			}
+		}
+
+		return result;
+	}
 
 	/*
 	 * The edges are stored in the array in ascending order, with duplicate

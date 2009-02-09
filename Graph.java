@@ -141,6 +141,34 @@ public class Graph {
 	}
 
 	/*
+	 * This method returns a Point containing the index of the two
+	 * vertices containing an edge in this graph, or null if the 
+	 * graph is empty. Note that it may return any edge in the graph
+	 * that it chooses to return! No guarentees here.
+	 */
+	public Point pickEdge() {
+		// for this particular implementation, we'll just
+		// pick the first edge we find
+		int i;
+		for( int v = 0; v < vertexCount - 1; v++ ) {
+			for( int w = v + 1; w < vertexCount; w++ ) {
+				if( edges[ i++ ] ) {
+					return new Point( v, w );
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/*
+	 * Returns the order of the graph (number of vertices).
+	 */
+	public int order() {
+		return vertexCount;
+	}
+
+	/*
 	 * Checks whether this graph is empty (has no edges).
 	 */
 	public boolean isEmpty() {

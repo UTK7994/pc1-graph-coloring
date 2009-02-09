@@ -90,13 +90,13 @@ public class Graph {
 
 				if( i != v && j != v ) {
 					result.edges[ resIndex++ ] |= hasEdge( i, j );
-				} else if( i == v && j != w ) {
+				} else if( i == v && j != w && hasEdge( i, j ) ) {
 					if( j < v ) {
 						result.addEdge( w - 1, j );
 					} else {
 						result.addEdge( w - 1, j - 1 );
 					}
-				} else if( j == v && i != w ) {
+				} else if( j == v && i != w && hasEdge( i, j ) ) {
 					if( i < v ) {
 						result.addEdge( w - 1, i );
 					} else {

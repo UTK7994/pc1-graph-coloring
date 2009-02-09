@@ -74,6 +74,7 @@ public class GraphInputReader {
 		// parse the input if there was any, and keep going 'til we run out
 		while( inLine != null ) {
 			edgeMatcher = edgePattern.matcher( inLine );
+			edgeMatcher.find();
 			v1 = edgeMatcher.group( 1 );
 			v2 = edgeMatcher.group( 2 );
 

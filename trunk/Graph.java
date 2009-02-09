@@ -151,4 +151,17 @@ public class Graph {
 		}
 		return true;
 	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder( vertexCount + " vertices\n" );
+		for( int v = 0; v < vertexCount - 1; v++ ) {
+			for( int w = v + 1; w < vertexCount; w++ ) {
+				if( edges[ getEdgeIndex(v,w) ] ) {
+					sb.append( v + ", " + w + "\n" );
+				}
+			}
+		}
+
+		return sb.toString();
+	}
 }

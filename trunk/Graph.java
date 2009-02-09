@@ -1,3 +1,5 @@
+import java.awt.Point; // ahh, if only Java had tuples...
+
 /*
  * Represents a simple graph composed of vertices and edges.
  * Abstracts away the data structure implementation details,
@@ -149,7 +151,7 @@ public class Graph {
 	public Point pickEdge() {
 		// for this particular implementation, we'll just
 		// pick the first edge we find
-		int i;
+		int i = 0;
 		for( int v = 0; v < vertexCount - 1; v++ ) {
 			for( int w = v + 1; w < vertexCount; w++ ) {
 				if( edges[ i++ ] ) {

@@ -21,6 +21,16 @@ public class Polynomial {
 	}
 
 	/*
+	 * Creates a new polynomial of degree given, with the coefficient
+	 * specified on x^degree
+	 */
+	public Polynomial( int degree, int coef ) {
+		this( degree );
+
+		coefficients[ degree ] = coef;
+	}
+
+	/*
 	 * Add val to the coefficient specified.
 	 */
 	public void addToCoefficient( int val, int coef ) {
@@ -37,8 +47,8 @@ public class Polynomial {
 	/*
 	 * Add an entire polynomial to this one.
 	 */
-	public void addPolynomial( Polynomial val ) {
-		for( int i = 0; i < coefficients.length; i++ ) {
+	public void add( Polynomial val ) {
+		for( int i = 0; i < coefficients.length && i < val.coefficients.length; i++ ) {
 			this.coefficients[ i ] += val.coefficients[ i ];
 		}
 	}
@@ -46,8 +56,8 @@ public class Polynomial {
 	/*
 	 * Subtract an entire polynomial from this one.
 	 */
-	public void subPolynomial( Polynomial val ) {
-		for( int i = 0; i < coefficients.length; i++ ) {
+	public void subtract( Polynomial val ) {
+		for( int i = 0; i < coefficients.length && i < val.coefficients.length; i++ ) {
 			this.coefficients[ i ] -= val.coefficients[ i ];
 		}
 	}
@@ -55,7 +65,7 @@ public class Polynomial {
 	/*
 	 * Evaluates this polynomial at the desired value of X
 	 */
-	public long evalPolynomial( int xVal ) {
+	public long evaluate( long xVal ) {
 		long result = coefficients[ 0 ];
 
 		for( int i = 1; i < coefficients.length; i++ ) {

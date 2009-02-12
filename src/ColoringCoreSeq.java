@@ -11,37 +11,37 @@ public class ColoringCoreSeq implements ColoringCore {
 			return 1;
 		}
 
-		// starting with 2, we'll try each value until we find
-		// one that gives us more than 0 colorings
-		int n = 1;
-		boolean found = false;
+		Polynomial result = countColorings( input );
+		long numColorings = 0;
+		int k = 0;
 
-		while( !found ) {
-			long result = countColorings( input, ++n );
-			System.out.println( result + " " + n + "-colorings found." );
-			found = ( result > 0 );
+		while( numColorings <= 0 ) {
+			k++;
+			numColorings = result.evaluate( k );
 		}
 
-		return n;
+		return k;
 	}
 
-	protected long countColorings( Graph g, int n ) {
+	protected Polynomial countColorings( Graph g ) {
 		if( g.isEmpty() ) {
 			// if there are no edges left,
-			// return n to the number of vertices
-			return (long)Math.pow( n, g.order() );
+			// return X to the number of vertices
+			return new Polynomial( g.order(), 1 );
 		}
 
-		long delCount, conCount;
+		Polynomial delPoly, conPoly;
 		Point edge = g.pickEdge();
 
 		g.deleteEdge( edge.x, edge.y );
-		delCount = countColorings( g, n );
+		delPoly = countColorings( g );
 		// add the edge back before we contract
 		g.addEdge( edge.x, edge.y );
 
-		conCount = countColorings( g.contraction( edge.x, edge.y ), n );
+		conPoly = countColorings( g.contraction( edge.x, edge.y ) );
 
-		return delCount - conCount;
+		delPoly.subtract( conPoly );
+
+		return delPoly;
 	}
 }

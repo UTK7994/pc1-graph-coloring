@@ -12,13 +12,8 @@ public class ColoringCoreSeq implements ColoringCore {
 		}
 
 		Polynomial result = countColorings( input );
-		long numColorings = 0;
-		int k = 0;
-
-		while( numColorings <= 0 ) {
-			k++;
-			numColorings = result.evaluate( k );
-		}
+		
+		int k = findMinColorsNeeded( result );
 
 		return k;
 	}
@@ -43,5 +38,17 @@ public class ColoringCoreSeq implements ColoringCore {
 		delPoly.subtract( conPoly );
 
 		return delPoly;
+	}
+
+	protected int findMinColorsNeeded( Polynomial chromaticPoly ) {
+		long numColorings = 0;
+		int k = 0;
+
+		while( numColorings <= 0 ) {
+			k++;
+			numColorings = chromaticPoly.evaluate( k );
+		}
+
+		return k;
 	}
 }

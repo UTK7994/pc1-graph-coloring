@@ -45,21 +45,25 @@ public class Polynomial {
 	}
 
 	/*
-	 * Add an entire polynomial to this one.
+	 * Add an entire polynomial to this one. Returns a reference to this Polynomial object.
 	 */
-	public void add( Polynomial val ) {
+	public Polynomial add( Polynomial val ) {
 		for( int i = 0; i < coefficients.length && i < val.coefficients.length; i++ ) {
 			this.coefficients[ i ] += val.coefficients[ i ];
 		}
+
+		return this;
 	}
 
 	/*
-	 * Subtract an entire polynomial from this one.
+	 * Subtract an entire polynomial from this one. Returns a reference to this Polynomial object.
 	 */
-	public void subtract( Polynomial val ) {
+	public Polynomial subtract( Polynomial val ) {
 		for( int i = 0; i < coefficients.length && i < val.coefficients.length; i++ ) {
 			this.coefficients[ i ] -= val.coefficients[ i ];
 		}
+
+		return this;
 	}
 
 	/*

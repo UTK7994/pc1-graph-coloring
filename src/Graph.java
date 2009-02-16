@@ -39,6 +39,14 @@ public class Graph {
 	}	
 
 	/*
+	 * Copy constructor.
+	 */
+	public Graph( Graph g ) {
+		this.vertexCount = g.vertexCount;
+		this.edges = g.edges.clone();
+	}
+
+	/*
 	 * Adds an edge to the graph between the vertices specified.
 	 */
 	public void addEdge( int v, int w ) {

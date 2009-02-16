@@ -69,7 +69,7 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 		// once we've shrunk the problem down to a manageable level, 
 		// we can calculate our way through those results to find 
 		// the final polynomial
-		return reduceResults( results );
+		return reduceResults( results, resultSize );
 	}
 
 	private Graph genGraphForIndex( Graph g, int i, int depth ) {
@@ -85,16 +85,30 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 
 		// here the check the lsb of i, and recur based on that bit
 		if( (i % 2) == 0 ) {
-			g.delete( edge.x, edge.y );
+			g.deleteEdge( edge.x, edge.y );
 			return genGraphForIndex2( g, i >> 1, depth - 1 );
 		} else {
-			return genGraphForIndex2( g.contract( edge.x, edge.y ), 
+			return genGraphForIndex2( g.contraction( edge.x, edge.y ), 
 					i >> 1, depth - 1 );
 		}
 	}
 
-	private Polynomial reduceResults( final Polynomial[] results ) {
-		// FIXME
-		return results[0];
+	/*
+	 * Reduces the results in place in the array, and returns the result once
+	 * we get down to a single polynomial at index 0. Each recursive call
+	 * reduces the number of polynomials in half, discarding the data farther
+	 * up in the array.
+	 */
+	private Polynomial reduceResults( final Polynomial[] results, int resultSize ) {
+		if( resultSize == 1 )
+			return results[0];
+
+		int newResultSize = resultSize / 2;
+
+		for( int i = 0; i < newResultSize; i++ ) {
+			results[i] = results[i*2].subtract( results[i*2 + 1] );
+		}
+
+		return reduceResults( results, newResultSize / 2 );
 	}
 }

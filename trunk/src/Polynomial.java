@@ -78,4 +78,15 @@ public class Polynomial {
 
 		return result;
 	}
+
+	public String toString() {
+		String s = "";
+
+		for( int i = coefficients.length - 1; i > 0; i-- ) {
+			s += ( coefficients[i] + "x^" + i + " + " );
+		}
+
+		s += coefficients[0];
+		return s;
+	}
 }

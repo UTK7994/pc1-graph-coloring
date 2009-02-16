@@ -1,3 +1,4 @@
+import java.awt.Point; // ahh, if only Java had tuples...
 import edu.rit.pj.*;
 
 /*
@@ -72,8 +73,24 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 	}
 
 	private Graph genGraphForIndex( Graph g, int i, int depth ) {
-		// FIXME
-		return g;
+		// copy the graph we're being passed to avoid side effects
+		return genGraphForIndex2( new Graph(g), i, depth );
+	}
+
+	private Graph genGraphForIndex2( Graph g, int i, int depth ) {
+		if( depth == 0 )
+			return g;
+
+		Point edge = g.pickEdge();
+
+		// here the check the lsb of i, and recur based on that bit
+		if( (i % 2) == 0 ) {
+			g.delete( edge.x, edge.y );
+			return genGraphForIndex2( g, i >> 1, depth - 1 );
+		} else {
+			return genGraphForIndex2( g.contract( edge.x, edge.y ), 
+					i >> 1, depth - 1 );
+		}
 	}
 
 	private Polynomial reduceResults( final Polynomial[] results ) {

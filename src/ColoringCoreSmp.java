@@ -47,7 +47,7 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
                 try {
                 new ParallelTeam().execute( new ParallelRegion() {
                 public void run() throws Exception {
-		execute( 0, resultSize, new IntegerForLoop() {
+		execute( 0, resultSize - 1, new IntegerForLoop() {
 			
 			public void run( int first, int last ) {
 				for( int i = first; i <= last; i++ ) {
@@ -62,7 +62,7 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 			// so this error handling is kind of generic...
 			// but we shouldn't be hitting any exceptions
 			// here anyway, so I'd say this is alright.
-			e.printStackTrace();
+			System.out.println( "Caught an unexpected exception!" );
 			System.exit( -1 );
 		}
 
@@ -83,6 +83,12 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 
 		Point edge = g.pickEdge();
 
+		if( edge == null ) {
+			// if edge is null, we've run into shaky ground
+			// because it means we're out of edges already
+			return genGraphForIndex3( g, i, depth );
+		}
+
 		// here the check the lsb of i, and recur based on that bit
 		if( (i % 2) == 0 ) {
 			g.deleteEdge( edge.x, edge.y );
@@ -90,6 +96,23 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 		} else {
 			return genGraphForIndex2( g.contraction( edge.x, edge.y ), 
 					i >> 1, depth - 1 );
+		}
+	}
+
+	/*
+	 * This is sort of an emergency backup plan for genGraphForIndex2.
+	 * It hacks the results into being correct by putting the right 
+	 * values at the right places, but it's not the prettiest solution.
+	 */
+	private Graph genGraphForIndex3( Graph g, int i, int depth ) {
+		if( depth == 0 )
+			return g;
+
+		// here we check the lsb of i, and recur based on that bit
+		if( (i % 2) == 0 ) {
+			return genGraphForIndex3( g, i >> 1, depth - 1 );
+		} else {
+			return new Graph(0);
 		}
 	}
 
@@ -107,8 +130,11 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 
 		for( int i = 0; i < newResultSize; i++ ) {
 			results[i] = results[i*2].subtract( results[i*2 + 1] );
+			System.out.println( results[i] );
 		}
 
-		return reduceResults( results, newResultSize / 2 );
+		System.out.println( "\n" );
+
+		return reduceResults( results, newResultSize );
 	}
 }

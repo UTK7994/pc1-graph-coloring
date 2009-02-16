@@ -171,6 +171,20 @@ public class Graph {
 	}
 
 	/*
+	 * Returns the size of the graph (number of vertices).
+	 */
+	public int size() {
+		int count = 0;
+		for( int i = 0; i < edges.length; i++ ) {
+			if( edges[i] ) {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	/*
 	 * Checks whether this graph is empty (has no edges).
 	 */
 	public boolean isEmpty() {

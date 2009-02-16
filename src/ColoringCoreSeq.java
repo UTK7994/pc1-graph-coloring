@@ -6,11 +6,6 @@ import java.awt.Point; // ahh, if only Java had tuples...
 
 public class ColoringCoreSeq implements ColoringCore {
 	public int run( Graph input ) {
-		// first check if we have an empty graph
-		if( input.isEmpty() ) {
-			return 1;
-		}
-
 		Polynomial result = countColorings( input );
 		
 		int k = findMinColorsNeeded( result );
@@ -19,6 +14,15 @@ public class ColoringCoreSeq implements ColoringCore {
 	}
 
 	protected Polynomial countColorings( Graph g ) {
+		// this is not strictly correct, as there is 1 way to color
+		// a graph with 0 vertices. However, in practice we will 
+		// never get a graph with 0 vertices, and it makes certain
+		// things much simpler to pretend there are 0 ways to color
+		// such a graph.
+		if( g.order() == 0 ) {
+			return new Polynomial( 0 );
+		}
+
 		if( g.isEmpty() ) {
 			// if there are no edges left,
 			// return X to the number of vertices

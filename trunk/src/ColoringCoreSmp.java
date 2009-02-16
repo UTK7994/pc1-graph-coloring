@@ -37,9 +37,8 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 		// levels of recursion, so we'll have to take the 
 		// min of two values.
 
-		// 128 chunks/cpu at 8 cpus seems reasonable
-		final int DEFAULT_DEPTH = 10;
-		final int initialDepth = Math.min( DEFAULT_DEPTH, input.size() );
+		final int MAX_DEPTH = 12;
+		final int initialDepth = Math.min( MAX_DEPTH, input.size() );
 		final int resultSize = (int)Math.pow( 2, initialDepth );
 
 		final Polynomial[] results = new Polynomial[ resultSize ];
@@ -57,6 +56,11 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 					results[i] = countColorings( localGraph );
 				}
 			}
+
+			public IntegerSchedule schedule() {
+				return IntegerSchedule.dynamic();
+			}
+
 		});}});}
 		catch( Exception e ) {
 			// so this error handling is kind of generic...
@@ -130,10 +134,7 @@ public class ColoringCoreSmp extends ColoringCoreSeq {
 
 		for( int i = 0; i < newResultSize; i++ ) {
 			results[i] = results[i*2].subtract( results[i*2 + 1] );
-			System.out.println( results[i] );
 		}
-
-		System.out.println( "\n" );
 
 		return reduceResults( results, newResultSize );
 	}

@@ -1,0 +1,3 @@
+This project has been created as part of an assignment for a parallel computing course at RIT, and will be written by Nick Marino and Jimmy Fifield. We will be implementing an SMP parallel version of the famous deletion-contraction algorithm used to determine properties of graph colorings.
+
+Because this project is being done as part of a graded assignment, we will not be able to accept outside contributions until after the end of the RIT Winter 2008-2009 quarter.
